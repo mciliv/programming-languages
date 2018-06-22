@@ -1,0 +1,364 @@
+;; Name: Morgan Ciliv
+;; Date due: 1/30/18
+;; Comp105 Assignment 1: Impcore
+;; File: solution.imp
+;; Purpose: Contains Impcore code solutions 
+
+
+;;============================================================
+;;
+;; Problem 4
+;;
+;;============================================================
+;; (sigma m n) returns the sum of integers m up to and and including
+;; n.
+
+;; Examples and tests:
+(check-expect (sigma 0 0) 0)
+(check-expect (sigma 1 1) 1)
+(check-expect (sigma 0 1) 1)
+(check-expect (sigma 0 5) 15)
+(check-expect (sigma 1 7) 28)
+(check-expect (sigma 2 7) 27)
+
+;; Function Definition:
+(define sigma (m n)
+  (if (= m n)
+    m
+    (+ n (sigma m (- n 1)))))
+
+  ;; The recursion loosly follows the Peano proof system. 
+
+
+;;============================================================
+;;
+;; Problem 5
+;;
+;;============================================================
+;; (exp b n) returns b^n when b > 0 and n > 0.
+
+;; Examples and tests:
+(check-expect (exp 1 1) 1)
+(check-expect (exp 1 2) 1)
+(check-expect (exp 2 1) 2)
+(check-expect (exp 2 2) 4)
+(check-expect (exp 2 20) 1048576)
+(check-expect (exp 3 3) 27)
+
+;; Function Definition:
+(define exp (b n)
+  (if (= n 1)
+    b
+    (* b (exp b (- n 1)))))
+
+    ;; The recursion pattern is a subtractive version of the Peano proof system
+    ;; where the base case is m instead of 0
+
+;;============================================================
+;; (log b m) returns the smallest integer such that b ^ (n + 1) such that b > 1
+;; and m > 0.
+
+;; Examples and tests:      
+(check-expect (log 2 1) 0)
+(check-expect (log 10000 9999) 0)
+(check-expect (log 9999 10000) 1)
+(check-expect (log 2 2) 1)
+(check-expect (log 2 4) 2)
+(check-expect (log 2 1024) 10)
+(check-expect (log 3 28) 3)
+
+;; Definition:
+(define log (b m)
+  (if (> b m)
+    0
+    (+ 1 (log b (/ m b)))))
+
+  ;; The recursion pattern is based on the decimal 2 system, but instead
+  ;; recurses by dividing and using base b
+
+
+;;============================================================
+;;
+;; Problem 7
+;;
+;;============================================================
+;; (fib m) returns the mth fibonacci number, where m must be greater than 1
+
+;; Examples and tests:
+(check-expect (fib 0) 0)
+(check-expect (fib 1) 1)
+(check-expect (fib 2) 1)
+(check-expect (fib 3) 2)
+(check-expect (fib 4) 3)
+(check-expect (fib 5) 5)
+(check-expect (fib 10) 55)
+
+;; Function Definition
+(define fib (m)
+  (if (= m 0)
+    0
+    (if (= m 1)
+      1
+      (+ (fib (- m 1)) (fib (- m 2))))))
+
+  ;; The recursion pattern is combination of both the parity proof system
+  ;; and the Peano proof system
+
+
+;;============================================================
+;;
+;; Problem 8
+;;
+;;============================================================
+;; (prime? n) returns nonzero ("true") if n is prime, else returns 0 ("false")
+
+;; Examples and tests:
+(check-expect (prime? -77) 0)
+(check-expect (prime? 0) 0)
+(check-expect (prime? 1) 0)
+(check-expect (prime? 4) 0)
+(check-expect (prime? 6) 0)
+(check-expect (prime? 50) 0)
+(check-assert (prime? 2))
+(check-assert (prime? 3))
+(check-assert (prime? 5))
+(check-assert (prime? 7))
+(check-assert (prime? 43))
+
+;; Function Definition
+(define prime?(n)
+ (if (< n 2)
+   0
+   (prime-helper n  (/ n 2))))
+
+;; (prime-helper n) returns 1 ("true") if n is prime, else returns 0 ("false").
+;; d should be n/2 when first called.
+
+;; Function Definition
+(define prime-helper(n d)
+  (if (< d 2)
+    1
+    (if (= (mod n d) 0)
+      0
+      (prime-helper n (- d 1)))))
+
+  ;; Recursion pattern follows a subtractive version of the Peano proof system
+
+;;============================================================
+;; (nthprime n) returns the nth prime number, where 2 is the first prime, 3 is
+;; the second prime, and so on.
+
+;; Examples and tests:
+(check-expect (nthprime 1) 2)
+(check-expect (nthprime 2) 3)
+(check-expect (nthprime 3) 5)
+(check-expect (nthprime 4) 7)
+(check-expect (nthprime 5) 11)
+(check-expect (nthprime 12) 37)
+
+;; Function Definition
+(define nthprime(n)
+  (if (< n 1)
+    0
+    (nthprime-helper n 1 2)))
+
+
+;; (nthprime-helper n m p) returns the nth prime number. m should be 1 and p
+;; should be 2 when called as m represents the first and p represents the
+;; first prime number, 2
+
+;; Function Definition
+(define nthprime-helper(n m p)
+  (if (prime? p)
+    (if (= m n)
+      p
+      (nthprime-helper n (+ m 1) (+ p 1)))
+    (nthprime-helper n m (+ p 1))))
+
+      ;; Recursion pattern follows is similar to a subtractive version of the
+      ;; Peano proof system
+
+
+;;============================================================
+;; (sumprimes n) returns the sum of the first n primes.
+
+;; Examples and tests:
+(check-expect (sumprimes 0) 0)
+(check-expect (sumprimes 1) 2)
+(check-expect (sumprimes 2) 5)
+(check-expect (sumprimes 3) 10)
+(check-expect (sumprimes 4) 17)
+(check-expect (sumprimes 5) 28)
+(check-expect (sumprimes 8) 77)
+
+;; Function Definition
+(define sumprimes(n)
+  (if (< n 1)
+    0
+    (+ (nthprime n) (sumprimes (- n 1)))))
+
+  ;; Recursion pattern follows a subtractive version of the Peano proof system
+
+;;============================================================
+;; (relprime? m n) returns nonzero ("true") if m and n are relatively prime--
+;; that is, their only common divisor is 1--and zero ("false") otherwise
+
+;; Examples and tests:
+(check-assert (relprime? 1 1))
+(check-assert (relprime? 1 2))
+(check-assert (relprime? 1 3))
+(check-assert (relprime? 2 1))
+(check-assert (relprime? 3 1))
+(check-assert (relprime? 2 3))
+(check-assert (relprime? 3 2))
+(check-assert (relprime? 4 3))
+(check-assert (relprime? 3 4))
+(check-assert (relprime? 5 3))
+(check-assert (relprime? 6 5))
+(check-assert (relprime? 17 24))
+(check-assert (relprime? 17 13))
+(check-expect (relprime? 2 2) 0)
+(check-expect (relprime? 3 3) 0)
+(check-expect (relprime? 2 4) 0)
+(check-expect (relprime? 3 6) 0)
+(check-expect (relprime? 2 6) 0)
+(check-expect (relprime? 6 2) 0)
+(check-expect (relprime? 4 4) 0)
+(check-expect (relprime? 6 6) 0)
+(check-expect (relprime? 24 6) 0)
+(check-expect (relprime? 7 14) 0)
+
+;; Function Definition
+(define relprime?(m n)
+  (if (or (= m 1) (= n 1))
+    1
+    (if (< m n)
+      (relprime-helper n m m)
+      (relprime-helper m n n))))
+
+(define relprime-helper(m n d)
+  (if (< d 2)
+    1
+    (if (and (= (mod m d) 0) (= (mod n d) 0))
+      0
+      (relprime-helper m n (- d 1)))))
+
+  ;; Recursion pattern follows a subtractive version of the Peano proof system
+  ;; with a base case of 1
+
+  
+
+
+;;============================================================
+;;
+;; Problem 10
+;;
+;;============================================================
+;; (binary m) returns the binary representation of the digit m.
+
+;; Examples and tests:
+(check-expect (binary 0) 0)
+(check-expect (binary 1) 1)
+(check-expect (binary 2) 10)
+(check-expect (binary 3) 11)
+(check-expect (binary 4) 100)
+(check-expect (binary 5) 101)
+(check-expect (binary 12) 1100)
+(check-expect (binary 65) 1000001)
+(check-expect (binary -1) -1)
+(check-expect (binary -2) -10)
+(check-expect (binary -3) -11)
+(check-expect (binary -4) -100)
+(check-expect (binary -5) -101)
+(check-expect (binary -12) -1100)
+(check-expect (binary -65) -1000001)
+
+;; Definition:
+(define binary (m)
+  (binary-helper m 0))
+
+;; (binary-helper m p) returns the binary representation of the digit m. When
+;; first called, p should be 0
+
+;; Definition:
+(define binary-helper (m p)
+  (if (= p 0)
+    (+ (mod m 2) (binary-helper (/ m 2) (+ p 1)))
+    (if (= m 0)
+      0
+      (+ (* (mod m 2) (exp 10 p)) (binary-helper (/ m 2) (+ p 1))))))
+
+  ;; Recursion pattern follows an idea similar to the binary proof system
+  ;; for natural numbers
+
+
+;;============================================================
+;;
+;; Problem DD
+;;
+;;============================================================
+;; (double-digit n) returns a positive integer whose decimal representation is
+;; the same as the decimal representation of the input, except each digit
+;; appears twice. The input must be a positive integer less than 20,000
+
+;; Examples and tests:
+(check-expect (double-digit 1) 11)
+(check-expect (double-digit 9) 99)
+(check-expect (double-digit 11) 1111)
+(check-expect (double-digit 99) 9999)
+(check-expect (double-digit 19) 1199)
+(check-expect (double-digit 218) 221188)
+(check-expect (double-digit 17283) 1177228833)
+(check-expect (double-digit 19999) 1199999999)
+
+;; Definition:
+(define double-digit (n)
+  (double-digit-helper n 0))
+
+;; (double-digit-helper n p) returns a positive integer whose decimal
+;; representation is the same as the decimal representation of the
+;; input, except each digit appears twice. The input must be a
+;; positive integer less than 20,000. p should be 0 when first called
+
+;; Definition:
+(define double-digit-helper (n p)
+  (if (= p 0)
+    (+
+      (double-digit-helper
+        (/ n 10)
+        (+ p 1))
+      (+
+        (*
+          (mod n 10)
+          10)
+        (mod n 10)))
+    (if (= n 0)
+      0
+      (+
+        (*
+          (+
+            (*
+              (mod n 10)
+              10)
+            (mod n 10))
+          (exp 100 p))
+        (double-digit-helper
+          (/ n 10)
+          (+ p 1))))))
+
+  ;; Recursion pattern follows an idea similar to the decimal proof system
+
+
+;;============================================================
+;;
+;; Problem O
+;;
+;;============================================================
+;; (overflow) results in arithmetic overflow
+
+;; Unit test:
+(check-error (overflow))
+
+;; Definition:
+(define overflow ()
+  (* 99999999 99999999))

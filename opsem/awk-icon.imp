@@ -1,0 +1,18 @@
+;; awk-icon.imp
+;; By: Morgan Ciliv
+
+;; awk-or-imp returns 1 if presented to impcore interpreter with Awk-like
+;; semantics, returns 0 if presented to intertpreter with Icon-like
+;; semantics, is a checked run-time error if presented to standard impcore
+;; interpreter
+(define awk-or-icon ()
+  (begin
+    (set x 0)
+    (undeclared-var)
+    x))
+
+;; undeclared-var sets an undeclared variable to 1 and returns 1
+(define undeclared-var ()
+  (set x 1))
+
+(awk-or-icon)

@@ -1,0 +1,23 @@
+# Scratch
+
+# parameters = model.get_weights()
+# for i in len(parameters):
+#     if i % 2 == 0:
+#         Ws[i] = parameters[i]
+#     else:
+#         Bs[i] = parameters[i]
+
+# A = x_test
+# for W in Ws:
+#     print(W.shape)
+
+# i = 0
+# while i < len(Ws):
+#     Z = np.matmul(A, Ws[i]) + Bs[i]
+#     A = K.relu(Z)
+
+# previous = x_test
+# for layer in model.layers:
+#     print(layer(previous))
+#     previous = layer(previous)
+#     print(K.eval(layer.output))

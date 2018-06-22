@@ -1,0 +1,11 @@
+Note: commented out tests while testing bigtests.smt, and now they fail
+with smallInt. All the tests used to work!
+
+A description of how you tested your bignum code
+
+We put a bunch of tests in bigtests.smt
+
+The names of the people with whom you collaborated
+
+Many TAs
+

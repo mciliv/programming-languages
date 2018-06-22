@@ -1,0 +1,65 @@
+cqs.impcore.txt
+COMP 105 - Opsem,
+Reading-Comprehension Questions
+
+Name: Morgan Ciliv
+
+For questions 1--7, please read pages 18--26 (the book sections on
+environments and on operational semantics of expressions).
+These questions are multiple-choice.  Questions 1 to 3 offer one set
+of choices, and questions 4 to 6 offer another set of choices.
+
+ 1. $\xi$ is an environment that maps names to
+
+    (f) *only* the values of global variables.
+
+ 2. $\phi$ is an environment that maps names to
+
+    (c) *both* primitive and user-defined functions.
+
+ 3. $\rho$ is an environment that maps names to
+
+    (b) *only* the values of formal parameters.
+
+ 4. In the operational semantics, what kind of a thing does the
+    metavariable $e$ stand for?
+
+    (d) an expression
+
+ 5. In the operational semantics, what kind of a thing does the
+    metavariable $v$ stand for?
+
+    (e) a value
+
+ 6. In the operational semantics, what kind of a thing does the
+    phrase $\rho\{x \mapsto 7\}(x)$ stand for?
+
+    (b) an impcore variable
+
+ 7. In the operational semantics, what kind of a thing does the
+    phrase $\rho\{x \mapsto 7\}\{x \mapsto 8\}$ stand for?
+
+    (a) an environment
+
+For questions 8 and 9, please read section 1.1.5 (page 14) 
+on the difference between primitive functions and predefined
+functions, and please study the rules for function application in
+section 1.4.6, which starts on page 25.
+
+Answer each question with *all* of the rules that could apply:
+
+ 8. Function `<=` is in the initial basis but is not a primitive
+    function---it is a *predefined* function.  When evaluating
+    `(<= 0 n)`, what rule or rules of the operational semantics could
+    be used at the root of the derivation?  Please list them all.
+    (Depending on the value of `n`, more than one rule could be
+    possible.)
+
+    IfTrue and IfFalse
+
+ 9. Function `=` is *primitive*.  When evaluating `(= n 10)`, what
+    rule or rules of the operational semantics could be used at the
+    root of the derivation?  Please list them all.  (Depending on the
+    value of `n`, more than one rule could be possible.)
+
+    ApplyUser

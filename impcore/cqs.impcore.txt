@@ -1,0 +1,19 @@
+cqs.impcore.txt
+COMP 105 - Induction and Recursion Using an Imperative Core,
+Reading-Comprehension Questions
+
+Name: Morgan Ciliv
+Partner (if applicable): NA
+
+1. 99
+2. b
+3. (check-expect (+ 1 2 3) 6)
+   No
+
+   (check-expect (set x 1) 1)
+   Yes
+4. (a) 9 - (12 / 3)
+   (b) (- 9 (/ 12 3))
+5. (a) 1 through 9
+   (b) n - 1
+

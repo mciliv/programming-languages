@@ -1,0 +1,16 @@
+;;
+;; Problem 1
+;;
+;; f is a function that has type "forall alpha, beta . alpha --> beta"
+(define f (a) (f a)) 
+
+
+;;
+;; Problem 2
+;;
+;; Type scheme that would be inferred for x:
+;; (forall ('alpha) 'alpha)
+;;
+;; No, there is not a value that could be stored in rho that is consistent
+;; with sigma.
+

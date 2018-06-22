@@ -1,0 +1,9 @@
+(class LargePositiveInteger LargeInteger
+  (method print ())
+  (method negative ())
+  (method nonnegative ())
+  (method strictlyPositive ())
+  (method negated ())
+  (method + ())
+  (method * ())
+  (method div: ())

@@ -1,0 +1,242 @@
+Page 510 has the symbols
+
+ 1. Read sections 7.3.2 and 7.4.1,
+    which start on pages page 480 and page 481, respectively.  
+    We have seen the symbols ρ, τ, and σ before, but not used exactly in
+    this way. 
+
+    Here is a list of semantic and type-related concepts you have seen
+    written using single symbols:
+
+      - an expression
+      - a name
+      - a location
+      - a value
+      - a type
+      - a type scheme (new in this chapter)
+      - a mapping from names to locations
+      - a mapping from names to values
+      - a mapping from names to types
+      - a mapping from names to type schemes (new in this chapter)
+
+    There are lots of concepts and only so many symbols to go around.
+    Please identify, from the preceding list, what each symbol stands
+    for in the theory of nano-ML:
+
+    (a) ρ represents the environment which maps a name to a value.
+
+
+    (b) τ represents a type.
+
+
+    (c) σ represents a type scheme, a type quantified over a list of type
+        variables α₁,...,αn
+    
+
+    (d) Γ represents a type environment.
+     
+
+    And finally, 
+
+    (e) Say briefly what, in nano-ML, is the difference between τ and σ:
+
+    As reflected in the abstract syntax, a σ has a ∀ which quantifies certain
+    type variables in a type expression.
+
+    You are preparing for exercise 19.
+
+
+
+ 2. Read the first two pages of section 7.4.3, which explain
+    "substitutions" and "instances."
+
+    (a) Yes or no: does the substitution `(α → sym, β → bool, γ → int)`
+        replace type variable `α` with type `sym`?
+
+        Yes
+
+
+    (b) Yes or no: does the substitution `(α → sym, β → bool, γ → int)`
+        replace type variable `β` with type `bool`?
+
+        Yes
+
+
+    (c) Yes or no: does the substitution `(α → sym, β → bool, γ → int)`
+        leave the type `γ list` unchanged?
+
+        No
+
+
+    (d) Which of the following are *instances* of the polymorphic type
+        scheme `∀α . α list → int`?  For each one, please indicate
+        whether it is an instance of the type scheme (True) or whether
+        it is not an instance of the type scheme (False).
+        
+        `int list`   False
+
+        `int list list`  False
+
+        `int list list → int`  True
+
+        `int * int list → list`  False
+
+    You have a foundation on which to get ready for exercises
+    18 and S.
+
+
+
+ 3. Read the first page of section 7.5.2, which shows the form of
+    a constraint.   Then skip to the first page of section 7.5.3,
+    which explains how to apply a substitution to a constraint.
+
+
+
+    We start with a substitution θ and a constraint $C$:
+
+    > `θ = (α₁ ↦ int)`
+    >
+    > $C$ = `α₁ ~ α₂ /\ α₂ ~ α₃ list /\ α₄ ~ α₃ list list`.
+
+    Now define $C' = θ(C)$.
+    
+    (a) Write $C'$:
+
+    `int ~ α₂ /\ α₂ ~ α₃ list /\ α₄ ~ α₃ list list`.
+
+    
+    (b) Does $C'$ have a solution?  Answer yes or no.
+
+    `int ~ int /\ int ~ ... cannot work
+
+    Therefore, no.
+
+
+    Now define $C''$ as the result of applying substitution `(α₂ ↦ int)` to $C$.
+
+    (c) Write $C''$:
+
+    `α₁ ~ int /\ int ~ α₃ list /\ α₄ ~ α₃ list list`.
+
+
+    (d) Does $C''$ have a solution?  Answer yes or no.
+
+    No.
+
+    You are getting ready for exercises 18 and S.
+
+
+
+ 4. Now read all of section 7.5.3, which explains
+    how to solve constraints.  
+
+    To demonstrate your understanding, reason about solving these four
+    constraints:
+
+    > `C₁ = α ~ int`
+    >
+    > `C₂ = α ~ bool`
+    >
+    > `C₃ = C₁ /\ C₂`
+    >
+    > `C₄ = α₁ ~ α₂ /\ α₂ list ~ α₁`
+
+    (a) Write a substitution `θ₁` that solves constraint `C₁`:
+       
+    > `θ₁ = (α ↦ int)`
+
+
+    (b) Write a substitution `θ₂` that solves constraint `C₂`:
+
+    >`θ₂ = (α ↦ bool)`
+
+
+    (c) Does the composition `θ₂ ∘ θ₁` solve constraint `C₃ = C₁ /\ C₂`?
+        Answer yes or no.
+
+    No.
+
+
+    (d) Can constraint `C₃` be solved? Answer yes or no.
+
+    No.
+
+
+    (e) Can constraint `C₄` be solved? Answer yes or no.
+
+    No.
+
+    You are ready for excercises 18 and S.
+
+
+ 5. Read the paragraphs that describe the nondeterministic typing rules 
+    for `lambda` and for "Milner's Let", which you will find on page 489.
+    Especially, read the small paragraph following the `lambda` rule.
+
+    Now look at the `val` definition of `too-poly` in code chunk 489.
+    The right-hand side of the `val` definition is a `lambda`
+    expression with the name `empty-list` playing the role of `x₁`.
+    
+    (a) The rule for `lambda` says that we can pick any type `τ₁` for
+        `empty-list`.  After we've chosen `τ₁`, what is the *type
+        scheme* to which `empty-list` (playing `x₁`) is bound in the
+        extended environment which is used to check $e$?
+
+        (Hint: this type scheme comes from the `lambda` rule,
+        as per the discussion in the small paragraph, and it is
+        *different* from the type scheme of the `empty-list` that
+        appears in the top-level `val` binding.)
+        
+
+        ∀. τ₁
+
+
+
+    (b) Given that the rule for `lambda` says that we can pick any
+        type `τ₁` for `empty-list`, why can't we pick a `τ₁` that makes
+        the `lambda` expression type-check?  Put the word YES next to the
+        best explanation:
+
+      - Parameter `empty-list` has to have type `(forall ('a)
+        (list 'a))`, but `τ₁` is not a `forall` type.
+
+      - Parameter `empty-list` has type `τ₁` = `(list 'a)`, which is
+        not the same as `(list bool)`.
+
+      - Parameter `empty-list` can have any type `τ₁` but no `τ₁` can
+        be equivalent to both `(list int)` and `(list bool)`.
+
+            YES
+
+      - Parameter `empty-list` has type `τ₁` = `(list bool)`, which
+            is not the same as `(list int)`.
+
+      - Parameter `empty-list` has type `τ₁` = `(list int)`, which
+            is not the same as `(list bool)`.
+
+
+
+ 6. Now look at the definition of `not-too-poly` in code chunk 490.
+    The right-hand side is an example of Milner's `let` with
+    `empty-list` playing the role of $x$, the literal `'()` playing
+    the role of $e'$, and an application of `pair` playing the role
+    of $e$.  Suppose that Γ `⊢ '()` : β list, where β is a type variable
+    that does not appear anywhere in Γ.  That is to say, the literal
+    `'()` is given the type β list, which is playing the role of τ'.
+
+    (a) If τ' is β list, what are its free type variables?
+
+    β.
+
+    (b) What set plays the role of `{ α₁, ..., αₙ }`, which is ftv(τ')-ftv(Γ)?
+
+    {β}
+    
+
+    (c) What is the *type scheme* to which `empty-list` (playing x) is
+        bound in the extended environment which is used to check $e$?
+
+    ∀β . β list
+
+
+

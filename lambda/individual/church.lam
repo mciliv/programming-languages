@@ -1,0 +1,46 @@
+// lambda homework - individual problems (1-4)
+
+// Common Helpers
+10 = + 2 (* 2 4);
+not = \p.p false true;
+ifthenelse = \p.\a.\b. p a b;
+zero? = \n.n (\x.false) true;
+step = \p.pair (succ (fst p)) (fst p);
+pred = \n.snd (n step (pair 0 0));
+
+
+//// Problem 1 ////////////////////////////////////////////////////////////////
+
+even? = \e.e not true;
+
+
+//// Problem 2 ////////////////////////////////////////////////////////////////
+//
+// div2 returns a Church numeral divided by 2 (rounded down). That is div2
+// applied to the numeral for 2n or 2n + 1 returns n.
+//
+div2 = \n.snd (n (\p.pair (succ (snd p)) (fst p)) (pair 0 0));
+
+
+//// Problem 3 ////////////////////////////////////////////////////////////////
+
+mod2 = \n.ifthenelse (even? n) 0 1;
+
+//
+// binary returns an integer whose decimal representation is m’s base 2
+// representation, where m is an integer. The base 2 representation maps to the
+// church numeral equivalent of the decimal value of that base 2
+// representation.
+//
+noreduce binary = Y (\f.\m.ifthenelse (zero? m)
+                             0
+                             (+ (mod2 m) (* 10 (f (div2 m)))));
+
+
+//// Problem 4 ////////////////////////////////////////////////////////////////
+//
+// nth returns the nth value in a list provided n then the list.
+//
+noreduce nth = Y (\f.\n.\xs.ifthenelse (zero? n)
+                              (car xs)
+                              (f (pred n) (cdr xs)));

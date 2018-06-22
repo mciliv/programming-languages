@@ -1,0 +1,165 @@
+
+ 1. Read section 6.3.3, which describes how Typed Impcore is extended
+    with arrays.  Examine code chunk 411, which shows the cases that
+    have to be added to the type checker.  
+
+    For each case, name the type-system rule that applies:
+
+      * The rule for case `| ty (AAT (a, i)) = ...` is: elimination rule
+
+      * The rule for case `| ty (APUT (a, i, e)) = ...` is: elimination rule
+
+      * The rule for case `| ty (AMAKE (len, init)) = ...` is: introduction
+        rule
+
+      * The rule for case `| ty (ASIZE a) = ...` is: elimination rule
+
+    Now pick one of the rules and explain, in informal English, what
+    the rule is supposed to do.
+
+    MakeArray says that if expression len is an int and expression init is of
+    type "tau" then the type of the AMAKE expression is of type "ARRAY of tau."
+
+    You are now ready for exercise 2 in the pair problems.
+
+ 2. Read section 6.6.3 on quantified types in Typed μScheme.
+    In addition to the prose, read the transcripts in the first couple pages of
+    that section: each value that has a quantified type is instantiated later
+    in the transcript, giving you more examples to relate back to the prose.
+
+    (a) Assume variable `syms` holds a list of symbols (it has type `(list sym)`).
+        What expression do you write to compute its length? Pick exactly one of the
+        options below.
+
+        3. `((@ length sym) syms)`
+
+        1. `(length syms)`
+        2. `((o length sym) syms)`
+        4. `((length sym) syms)`
+
+
+    (b) You are given a function `positive?` of type `(int -> bool)`.
+        Using the predefined function `o`, which has type
+        `(forall ('a 'b 'c) (('b -> 'c) ('a -> 'b) -> ('a -> 'c)))`,
+        what code do you write to compose `positive?` with `not`?
+
+        ((@ o bool bool int) not positive?)
+
+    (c) In testing, we sometimes use a three-argument function `third`
+        that ignores its first two arguments and returns its third
+        argument.  Such a function has type
+
+            (forall ('a 'b 'c) ('a 'b 'c -> 'c))
+
+        There is only one sensible function that has this type.
+        Using a `val` definition, define function `third` in Typed μScheme. You
+        will need to use both `type-lambda` and `lambda`.
+
+        (val third (type-lambda ['a 'b 'c]
+            (lambda ([x : 'a] [y : 'b] [z : 'c]) z)))
+
+        
+
+    You are ready for exercise TD.
+
+
+ 3. Read about type equivalence starting on page 439
+    and page 440.
+
+    You are given ML values `tau1` and `tau2`, which represent the
+    respective Typed μScheme types `(forall ('a) 'a)` and `(forall ('b) 'b)`.
+    Semantically, these types are equivalent. For each of the two ML
+    expressions below, say whether the expression produces `true`
+    or produces `false`. Write each answer immediately below the
+    expression.
+
+    (a) `tau1 = tau2`
+
+    false
+
+    (b) `eqType (tau1, tau2)`
+
+    true
+
+    You will soon be ready for exercise 23, but
+    you first need to complete the next comprehension question.
+
+
+
+ 4. Read section 6.6.5 on typing rules for expressions in Typed μScheme.
+    For each of the expressions below, say if it is well typed, and if
+    so what its type is.  If the expression is not well typed, say
+    what typing rule fails and why.
+
+        ; (a)
+        (if #t 1 #f)
+
+        It's ill typed because it fails the if rule which states that e2 and
+        e3 are supposed to be the same type, which is not the case since 1 is
+        an int and #f is a bool.
+
+        ; (b)         
+        (let ([x 1]
+              [y 2])
+           (+ x y))
+
+        It's well typed with type int.
+
+        ; (c)
+        (lambda ([x : int]) x)
+
+        It's well typed with type int.
+
+        ; (d)
+        (lambda ([x : 'a]) x)
+
+        Ill-typed because the type variable is not bound. There should be
+        a tylambda around in as in the next part.
+
+        ; (e)
+        (type-lambda ['a] (lambda ([x : 'a]) x))
+
+        Well-typed with type (forall ('a) ('a -> 'a))
+  
+    You are now ready for exercise 23.
+
+
+ 5. Exercise 24 on page 466 calls for you to add a
+    primitive queue type to Typed μScheme. Read it.  Then read
+    "Primitive type constructors of Typed uScheme" in
+    section 6.6.9, which starts on page 449.
+
+    (a) Which existing primitive type most resembles a queue type?
+
+    List type
+
+    (b) When you add a primitive type constructor for queues, what
+        chunk of the source code do you intend to add it to?
+        (Give the page number, and if applicable, the letter. For example,
+        page 449 has chunks 449a and
+        449b, and the letter is the simplest way to
+        distinguish the two.)
+
+        Add it to the part: types for tuscheme in 449c
+
+
+
+    Read "Primitives of Typed μScheme" in section M.4, which starts on page 1123.
+
+    (c) Which set of primitive functions most resembles the functions
+        you will need to add for queues?
+
+        The list primitives (as shown on page 1124)
+
+
+    (d) When you add primitives functions that operate on queues, what
+        chunk of the source code do you intend to add it to?
+        (Just like we asked above, give the page number, and if
+        applicable, the letter.)
+
+
+        Add it to the primitive functions for Typed microScheme as
+        shown in 451b
+
+
+    You are ready for exercise 24.

@@ -1,0 +1,137 @@
+ 1. Read section 2.12.3, which starts on page 154.  Assume `y` is in
+    the domain of ρ.  Recall that evaluating a lambda in some
+    environment creates a closure using that same environment. What is
+    the result of the call to `f` in the program below? Pick either A
+    or B.
+    ```
+    (val f (lambda () y))
+    (val y 10)
+    (f)
+    ```
+
+    (A) It returns `10`
+
+
+
+    Assume `y` is not in the domain of ρ.  What is the result of the
+    call to `f` in the same program? Pick either A or B.
+
+    (B) An error is raised: `Run-time error: name y not found`
+
+
+
+    You are ready to start problem 44.
+
+
+ 2. Set aside an hour to study the conjunctive-normal-form solver in
+    section 2.10.1, which starts on page 140.  This will help you a lot in
+    solving problem **S**.
+
+    (a) Look at code chunk 144a on
+        page 144.  In English, describe how
+        `(one-solution f)` produces the answer `((x #t) (y #f))`.
+        Walk through each function call, what the input to the
+        function is, how the input is processed, and what the output
+        of the function call is.
+
+        It will help us read your answer and should help you answer
+        this question if each function call is formatted similar to
+        the examples below.  But if the formatting gets too cumbersome
+        just make sure you keep the four key parts of each call
+        (function, input, processing, and output) separate.  You can
+        use the examples below to start your answer for
+        `one-solution`.
+
+        ----------
+
+        *function:* `one-solution`
+
+        *input:* `formula` is `((x y z) ((not x) (not y) (not z)) (x y (not
+        z)))`
+
+        *processing:* none
+
+        *output:* what `find-cnf-true-assignment` returns for the whole
+        formula with no current solutions, a failure continuation that
+        returns `no-solution`, and a success continuation that returns
+        the first solution
+
+        ----------
+
+        *function:* `find-cnf-true-assignment`
+
+        *input:* the arguments mentioned in the previous output, where
+        `disjunctions` is bound to the `formula`
+
+        *processing:* `disjunctions` is not null, so this function calls
+        `find-disjunction-true-assignment`
+
+        *output:* what `find-disjunction-true-assignment` returns for the
+        first disjunction `(x y z)` with no current solutions, the same
+        failure continuation, and a success continuation that checks
+        the remaining disjunctions `(((not x) (not y) (not z)) (x y
+        (not z)))`. If checking the remaining disjunctions fails we
+        want to try to find another solution to `(x y z)`, so we pass
+        `resume` as the failure continuation; otherwise if checking
+        suceeds with an answer then that answer is good for the entire
+        search, so we pass `suceed` as the success continuation
+
+        ----------
+
+        *function:* `find-disjunction-true-assignment`
+
+        *input:* the arguments mentioned in the previous output, where
+        `literals` is bound to the first disjunction `(x y z)` and succeed
+        is bound to the success continuation mentioned
+
+        *processing:* `literals` is not null, so this function calls
+        `find-literal-true-assignment`
+
+        *output:* what `find-literal-true-assignment` returns for the first
+        literal `x` with no current solutions, a failure continuation that
+        checks the remaining literals `(y z)`. If checking the remaining
+        literals fails, we have failed, so we pass the fail continuation;
+        otherwise if checking suceeds with an answer then that answer is good
+        for this part of the search, so we pass `succeed` as the success
+        continuation
+
+        ----------
+
+        *function:* `find-literal-true-assignment`
+
+        *input:* the arguments mentioned in the previous output, where
+        `lit` is bound to the the first literal of the first disjunction,
+        `x and fail is bound to the failure continuation mentioned
+
+        *processing:* `disjunctions` is not null, so this function calls
+        `find-disjunction-true-assignment`
+
+        *output:* what `find-disjunction-true-assignment` returns for the
+        first disjunction `(x y z)` with no current solutions, the same
+        failure continuation, and a success continuation that checks
+        the remaining disjunctions `(((not x) (not y) (not z)) (x y
+        (not z)))`. If checking the remaining disjunctions fails we
+        want to try to find another solution to `(x y z)`, so we pass
+        `resume` as the failure continuation; otherwise if checking
+        suceeds with an answer then that answer is good for the entire
+        search, so we pass `suceed` as the success continuation
+
+        ----------
+
+        *function:* `satisfies?`
+
+        *input:* lit and cur
+
+        --> continuing till termination of the function
+
+    (b) Look at code chunk 144c. As
+        you did with 144a, describe how
+        `(one-solution '((x) ((not x))))` produces the answer
+        `no-solution`. Format this answer like you did for the
+        previous part.
+
+        --> Very similar to previous part
+
+
+
+    You are ready to start problem S.

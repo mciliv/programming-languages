@@ -1,0 +1,42 @@
+Jeremy Batchelder and Morgan Ciliv
+Pair Programming Assignment: Typesystems
+Due: 3/16/18
+Document: README
+
+Your answers to parts 24 (a)
+
+A) It's a * -> * kind
+fun queuetype ty = CONAPP (TYCON "queue",[ty])
+
+B) 
+  ("empty?", unaryOp (BOOLV o (fn (NIL   ) => true | _ => false))
+    , FORALL (["'a"], FUNTY ([queuetype tyvarA], booltype))) ::
+
+  ("get-first",  unaryOp  (fn (PAIR (car, _)) => car | v => raise RuntimeError
+    ("get-first applied to non-queue " ^ valueString v))
+    , FORALL (["'a"], FUNTY ([queuetype tyvarA], tyvarA))) ::
+
+  ("get-rest",  unaryOp  (fn (PAIR (_, cdr)) => cdr | v => raise RuntimeError
+    ("get-rest applied to non-queue " ^ valueString v))
+    , FORALL (["'a"], FUNTY ([queuetype tyvarA], queuetype tyvarA))) ::
+
+  ("put", binaryOp let fun put (x, NIL)          = PAIR (x, NIL)
+    | put (x, PAIR (y, ys)) = PAIR (y, put (x, ys))
+    | put (x, _)            = raise BugInTypeChecking 
+    "non-queue passed to put" in put end, FORALL (["'a"], FUNTY (
+    [queuetype tyvarA], queuetype tyvarA))) :: 
+
+("empty-queue", NIL , FORALL(["'a"], queuetype tyvarA)) ::
+
+A high-level description of the design and implemenation of your solutions
+
+  For our queuetype, we followed the implementation of listtype in many ways.
+  The differentiating piece was the empty-queue that we added to the 
+  primitive basis, and the put function.
+
+  For our typechecker, we relied on the operational symantics to define
+    each of our functions. We also looked at some of the pattern matches
+    defined for the ev function.
+
+The names of the people with whom you collaborated
+Fury Sheron, Andrew Hoiberg, and Alex Nolte 

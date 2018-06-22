@@ -1,0 +1,7 @@
+(check-principal-type (letrec
+                        ([add (lambda (x y) (+ x y))])
+                        (add 1 2))
+                      int)
+
+(check-type-error (if #t 1 #t))
+(check-type-error (lambda (x y z) (+ x y z)))

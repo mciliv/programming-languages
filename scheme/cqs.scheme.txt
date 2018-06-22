@@ -1,0 +1,115 @@
+ 1. Review section 2.2 on list primitives and S-expression literals
+    and say what is the value of each of the expressions below.
+    If a run-time error would occur, please say so.
+
+        (car '(a b 1 2)) = 'a
+        (cdr '(a b 1 2)) = '(b 1 2)
+        (= 'a 'b) = #f
+
+    Write your answers as S-expression literals, like `'(a b c)`,
+    `#t`, or `17`.
+
+    _You are on your way to being ready for exercise **H**._
+
+ 2. Review the first few pages of section 2.3, through the end of
+    section 2.3.2.  Which of the following expressions evaluate to
+    `#t` for every *list* `xs`?
+
+        (=      (reverse (reverse xs)) xs)
+        (equal? (reverse (reverse xs)) xs)
+
+    (b) Only the second
+
+ 3. Read section 2.3.2, then please explain in your own words the
+    difference between `simple-reverse` and `reverse`.
+
+    The difference between "simple-reverse" and "reverse" is that
+    "simple-reverse" takes the first element and goes through the rest of the
+    non-reversed portion of the list and appends it to the end of the same list
+    while "reversed" instead takes the first element and prepends it to a new
+    list and the new list is returned. simple-reverse is quadratic time
+    operation while reverse is a linear time operation. 
+
+    _You are now mostly ready for exercise 35._
+
+ 4. Read about association lists in section 2.3.6, which starts on page 103.
+    Given the definition
+        (val mascots '((Tufts Jumbo) (MIT Beaver) (Northeastern Husky)
+        (BU Terrier)))
+        
+    Say what is the value of each of these expressions:
+
+        (find 'Tufts   mascots) = 'Jumbo
+        (find 'MIT     mascots) = 'Beaver
+        (find 'Harvard mascots) = '()
+        (find 'MIT (bind 'MIT 'Engineer mascots)) = 'Engineer
+
+ 5. Read section 2.16.6, which starts on page 191.
+    Imagine that μScheme is given the following definition:
+
+        (record 3point (x y z))
+
+    This definition puts five functions into the environment ρ.
+    What are their names?
+
+    make-point, point?, point-x, point-y, point-z
+
+    _You are now mostly ready for exercise **E**._
+
+ 6. Review the first part of section 2.4, which starts on page 105,
+    up to and including section 2.4.4.  Now think up a new algebraic law
+    that applies to some combination of `append` and `length`.  Write 
+    your law in the style of section 2.4.4.  Like the other list laws 
+    in that section, your law must mention a variable `xs`, which must
+    be allowed to be any arbitrary list.
+
+    New algebraic law:
+
+    (length (append xs xs)) = (* 2 (length xs))
+
+    _You are now prepared for the algebraic laws in exercises **A**,
+    **B**, and **C**._
+
+ 7. Read section 2.5, which explains `let`, `let*`, and `letrec`.
+    This question asks you to decide if any or all these forms can
+    appropriately express the following function (written in C):
+
+        bool parity(int m) {
+          int half_m     = m / 2;
+          int other_half = m - half_m;
+          return half_m == other_half;
+        }      
+
+    Scheme does not have local variables, so to translate this
+    function into μScheme, you must use `let`, `let*`, or
+    `letrec`.  Which of the following three translations sensibly
+    captures the intent and behavior of the original function?  
+    For each of the following parts, please answer "yes" or "no":
+
+        ;; Translation A
+        (define parity (m)
+           (let ([half_m     (/ m 2)]
+                 [other_half (- m half_m)])
+             (= half_m other_half)))
+
+    Is translation A sensible (yes or no)? No
+             
+        ;; Translation B
+        (define parity (m)
+           (let* ([half_m     (/ m 2)]
+                  [other_half (- m half_m)])
+             (= half_m other_half)))
+
+    Is translation B sensible (yes or no)? Yes
+             
+
+        ;; Translation C
+        (define parity (m)
+           (letrec ([half_m     (/ m 2)]
+                    [other_half (- m half_m)])
+             (= half_m other_half)))
+
+    Is translation C sensible (yes or no)? Yes
+
+
+    _You are now ready for exercise 30._
